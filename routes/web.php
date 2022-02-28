@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\{
+    AlbumController
+};
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,10 +14,15 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('test', function() {
+    return 'test';
+})->middleware(['auth', 'verified']);
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('albums', AlbumController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
