@@ -3,7 +3,7 @@
     <div class="main-content" style="min-height: 692px;">
         <section class="section">
             <div class="section-header">
-                <h1>Article</h1>
+                <h1>{{ $heading }}</h1>
                 {{--<div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
                     <div class="breadcrumb-item"><a href="#">Components</a></div>
@@ -11,7 +11,7 @@
                 </div>--}}
             </div>
             <div class="section-body">
-                <h2 class="section-title">Article Style C</h2>
+                <h2 class="section-title">{{ $heading }}</h2>
                 <div class="row">
                     <div class="col-12 col-md-4 col-lg-4">
                         <article class="article article-style-c">

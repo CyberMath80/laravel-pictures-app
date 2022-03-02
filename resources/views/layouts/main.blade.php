@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+        <meta name="description" content="{{ $description ?? '' }}">
         <title>{{ $title }}</title>
 
         <!-- General CSS Files -->
@@ -20,7 +21,7 @@
             <div class="main-wrapper container">
                 <div class="navbar-bg"></div>
                 <nav class="navbar navbar-expand-lg main-navbar">
-                    <a href="{{ url('/') }}" class="navbar-brand sidebar-gone-hide">{{ config('app.name') }}</a>
+                    <a href="{{ route('home') }}" class="navbar-brand sidebar-gone-hide">{{ config('app.name') }}</a>
                     <div class="navbar-nav">
                         <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
                     </div>

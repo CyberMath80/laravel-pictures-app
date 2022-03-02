@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
-    AlbumController
+    AlbumController,
+    HomeController
 };
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +20,7 @@ use App\Http\Controllers\{
 })->middleware(['auth', 'verified']);
 */
 
-Route::get('/', function () {
-    return view('home.index')->with('title', config('app.name'));
-});
+Route::get('/', HomeController::class)->name('home');
 
 Route::resource('albums', AlbumController::class);
 
