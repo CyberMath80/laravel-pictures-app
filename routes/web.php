@@ -14,12 +14,13 @@ use App\Http\Controllers\{
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('test', function() {
+/*Route::get('test', function() {
     return 'test';
 })->middleware(['auth', 'verified']);
+*/
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home.index')->with('title', config('app.name'));
 });
 
 Route::resource('albums', AlbumController::class);
