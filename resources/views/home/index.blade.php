@@ -13,83 +13,41 @@
             <div class="section-body">
                 <h2 class="section-title">{{ $heading }}</h2>
                 <div class="row">
+@forelse($photos as $photo)
                     <div class="col-12 col-md-4 col-lg-4">
                         <article class="article article-style-c">
                             <div class="article-header">
-                                <div class="article-image" data-background="../assets/img/news/img13.jpg" style="background-image: url(&quot;../assets/img/news/img13.jpg&quot;);">
+                                <div class="article-image">
+                                    <a href="">
+                                        <img width="350" height="233" src="{{ $photo->thumbnail_url }}" alt="{{ $photo->title }}">
+                                    </a>
                                 </div>
                             </div>
                             <div class="article-details">
-                                <div class="article-category"><a href="#">News</a> <div class="bullet"></div> <a href="#">5 Days</a></div>
+                                <div class="article-category"><div class="bullet"></div><a href="#"> Posté le {{ $photo->created_at->isoFormat('LL') }}</a></div>
                                 <div class="article-title">
-                                    <h2><a href="#">Excepteur sint occaecat cupidatat non proident</a></h2>
+                                    <h2><a href="#">{{ $photo->title }}</a></h2>
                                 </div>
-                                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                    cillum dolore eu fugiat nulla pariatur. </p>
                                 <div class="article-user">
-                                    <img alt="image" src="../assets/img/avatar/avatar-1.png">
+                                    <img alt="{{ $photo->album->user->name }}" src="{{ asset('assets/img/avatar/avatar-1.png') }}">
                                     <div class="article-user-details">
                                         <div class="user-detail-name">
-                                            <a href="#">Hasan Basri</a>
+                                            <a href="#">{{ $photo->album->user->name }}</a>
                                         </div>
-                                        <div class="text-job">Web Developer</div>
+                                        <div class="text-job"><a href="#">{{  $photo->album->title  }}</a> {{ $photo->album->photos->count() }} {{ Str::plural('photo', $photo->album->photos->count()) }}</div>
                                     </div>
                                 </div>
                             </div>
                         </article>
                     </div>
-                    <div class="col-12 col-md-4 col-lg-4">
-                        <article class="article article-style-c">
-                            <div class="article-header">
-                                <div class="article-image" data-background="../assets/img/news/img14.jpg" style="background-image: url(&quot;../assets/img/news/img14.jpg&quot;);">
-                                </div>
-                            </div>
-                            <div class="article-details">
-                                <div class="article-category"><a href="#">News</a> <div class="bullet"></div> <a href="#">5 Days</a></div>
-                                <div class="article-title">
-                                    <h2><a href="#">Excepteur sint occaecat cupidatat non proident</a></h2>
-                                </div>
-                                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                    cillum dolore eu fugiat nulla pariatur. </p>
-                                <div class="article-user">
-                                    <img alt="image" src="../assets/img/avatar/avatar-3.png">
-                                    <div class="article-user-details">
-                                        <div class="user-detail-name">
-                                            <a href="#">Rizal Fakhri</a>
-                                        </div>
-                                        <div class="text-job">UX Designer</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="col-12 col-md-4 col-lg-4">
-                        <article class="article article-style-c">
-                            <div class="article-header">
-                                <div class="article-image" data-background="../assets/img/news/img01.jpg" style="background-image: url(&quot;../assets/img/news/img01.jpg&quot;);">
-                                </div>
-                            </div>
-                            <div class="article-details">
-                                <div class="article-category"><a href="#">News</a> <div class="bullet"></div> <a href="#">5 Days</a></div>
-                                <div class="article-title">
-                                    <h2><a href="#">Excepteur sint occaecat cupidatat non proident</a></h2>
-                                </div>
-                                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                    cillum dolore eu fugiat nulla pariatur. </p>
-                                <div class="article-user">
-                                    <img alt="image" src="../assets/img/avatar/avatar-2.png">
-                                    <div class="article-user-details">
-                                        <div class="user-detail-name">
-                                            <a href="#">Irwansyah Saputra</a>
-                                        </div>
-                                        <div class="text-job">Mobile Developer</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
+ @empty
+                    <p>Il n'y a pas encore de photo à afficher.</p>
+ @endforelse
                 </div>
             </div>
         </section>
+        <nav>
+            {!! $photos->links() !!}
+        </nav>
     </div>
 @stop
