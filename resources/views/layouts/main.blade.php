@@ -13,6 +13,7 @@
         <!-- CSS Libraries -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
         <link rel="stylesheet" href="{{ mix('css/all.css') }}">
+
         <!-- Template CSS -->
         {{--<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">--}}
@@ -314,7 +315,8 @@
         <!-- Page Specific JS File -->
 
         <!-- Template JS File -->
-        <script src="{{ asset('assets/js/scripts.js') }}"></script>
-        <script src="{{ asset('assets/js/custom.js') }}"></script>
+        {{--<script src="{{ asset('assets/js/scripts.js') }}"></script>
+        <script src="{{ asset('assets/js/custom.js') }}"></script>--}}
+        <script src="{{ mix('js/all.js') }}"></script>
     </body>
 </html>
