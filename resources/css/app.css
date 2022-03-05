@@ -13,3 +13,8 @@
 .article-image a img {
     margin: 0 auto;
 }
+
+.div-title {
+    display: flex;
+    align-items: center;
+}

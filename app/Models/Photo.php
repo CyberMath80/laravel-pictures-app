@@ -7,12 +7,29 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Builder;
+use Cache;
 
 class Photo extends Model
 {
     use HasFactory, HasSlug;
 
     protected $perPage = 9;
+
+    public static function boot() {
+        parent::boot();
+
+        static::created(function() {
+            Cache::flush();
+        });
+
+        static::updated(function() {
+            Cache::flush();
+        });
+
+        static::deleted(function() {
+            Cache::flush();
+        });
+    }
 
     protected static function booted() {
         static::addGlobalScope('active', function(Builder $builder) {

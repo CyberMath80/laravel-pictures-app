@@ -23,6 +23,12 @@ use App\Http\Controllers\{
 Route::get('/', HomeController::class)->name('home');
 
 Route::resource('albums', AlbumController::class);
+Route::middleware(['auth', 'verified'])->group(function() {
+    // user authentifié et vérifié
+    /*Route::get('user', function() {
+        return auth()->user()->email_verified_at->diffForHumans();
+    });*/
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -12,9 +12,24 @@ class AlbumController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return 'La liste des albums';
+    public function __construct() {
+        $this->middleware(['auth', 'verified'])->except('show');
+    }
+
+    public function index() { // liste des albums de l'user connecté
+        //dd(auth()->user()->name);
+        $albums = auth()->user()->albums()->with('photos', fn($query) => $query->withoutGlobalScope('active')->orderByDesc('created_at'))->orderByDesc('updated_at')->paginate();
+
+        //dd($albums);
+
+        $data = [
+            'title' => $description = 'Mes albums',
+            'description' => $description,
+            'albums' => $albums,
+            'heading' => $description,
+        ];
+
+        return view('album.index', $data);
     }
 
     /**

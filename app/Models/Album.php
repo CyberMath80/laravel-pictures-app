@@ -12,6 +12,8 @@ class Album extends Model
 {
     use HasFactory, HasSlug;
 
+    protected $perPage = 9;
+
     public function getRouteKeyName()
     {
         return 'slug';

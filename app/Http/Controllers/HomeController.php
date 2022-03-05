@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\{
-    Photo
+    Photo, User
 };
-use Cache;
+use Cache, Auth;
 
 class HomeController extends Controller
 {
@@ -19,6 +19,13 @@ class HomeController extends Controller
 
     public function __invoke(Request $request)
     {
+        Auth::logout();
+        Auth::login(User::first());
+        //Photo::latest()->first()->replicate()->save();
+        //$photo = Photo::find(31);
+        //$photo->title = 'Super Titre';
+        //$photo->save();
+        //$photo->delete();
         $currentPage = request()->query('page', 1);
         //dd($currentPage);
         $photos = Cache::RememberForever('photos_'.$currentPage, function() {
