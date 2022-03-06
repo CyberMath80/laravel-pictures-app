@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Album;
 use Illuminate\Http\Request;
+use App\Http\Requests\AlbumRequest;
 
 class AlbumController extends Controller
 {
@@ -39,7 +40,8 @@ class AlbumController extends Controller
      */
     public function create()
     {
-        //
+        $title = $description = $heading = 'Ajouter un nouvel album - '.config('app.name');
+        return view('album.create', compact('title', 'description', 'heading'));
     }
 
     /**

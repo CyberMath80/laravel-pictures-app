@@ -13,7 +13,7 @@
             <div class="section-body">
                 <div class="div-title">
                     <h2 class="section-title">{{ $heading }}</h2>&nbsp;
-                    <a class="btn btn-primary" href="{{ route('albums.create') }}">Ajouter un album</a>
+                    <a class="btn btn-primary ml-2" href="{{ route('albums.create') }}">Ajouter un album</a>
                 </div>
                 <div class="row">
                     @forelse($albums as $album)
