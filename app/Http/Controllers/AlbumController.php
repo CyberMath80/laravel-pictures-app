@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Album;
+use App\Models\{ Album, Category, Tag};
 use Illuminate\Http\Request;
 use App\Http\Requests\AlbumRequest;
+use DB, Auth;
 
 class AlbumController extends Controller
 {
@@ -50,9 +51,44 @@ class AlbumController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AlbumRequest $request)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $album = Auth::user()->albums()->create($request->validated());
+            //dd($request->categories);
+            $categories = explode(',',$request->categories);
+            $categories = collect($categories)->filter(function($value, $key){
+                return $value != '' && $value != ' ';
+            })->all();
+
+            //dd($categories);
+            foreach($categories as $cat) {
+                $category = Category::firstOrCreate(['name' => ucfirst(trim($cat))]);
+                $album->categories()->attach($category->id);
+            }
+
+            $tags = explode(',',$request->tags);
+            $tags = collect($tags)->filter(function($value, $key){
+                return $value != '' && $value != ' ';
+            })->all();
+
+            //dd($categories);
+            foreach($tags as $t) {
+                $tag = Tag::firstOrCreate(['name' => ucfirst(trim($t))]);
+                $album->tags()->attach($tag->id);
+            }
+        }
+        catch(ValidationException $e) {
+            DB::rollBack();
+            dd($e->getErrors());
+        }
+
+        DB::commit();
+
+        $success = 'Album ajouté';
+
+        return back()->withSuccess($success);
     }
 
     /**

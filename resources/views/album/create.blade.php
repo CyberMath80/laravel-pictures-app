@@ -43,7 +43,7 @@
                                         @enderror
                                     </div>
 
-                                    {{--<div class="form-group">
+                                    <div class="form-group">
                                         <label for="categories">Categories séprarées par des virgules</label>
                                         <input type="text" name="categories" value="{{ old('categories') }}" placeholder="nature, animaux, paysage" class="form-control">
                                         @error('categories')
@@ -57,7 +57,7 @@
                                         @error('tags')
                                         <div class="error">{{ $message }}</div>
                                         @enderror
-                                    </div>--}}
+                                    </div>
 
                                     <div class="card-footer text-right">
                                         <button class="btn btn-primary mr-1" type="submit">Submit</button>

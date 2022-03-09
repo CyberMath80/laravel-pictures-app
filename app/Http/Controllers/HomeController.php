@@ -19,8 +19,8 @@ class HomeController extends Controller
 
     public function __invoke(Request $request)
     {
-        Auth::logout();
-        Auth::login(User::first());
+        //Auth::logout();
+        //Auth::login(User::first());
         //Photo::latest()->first()->replicate()->save();
         //$photo = Photo::find(31);
         //$photo->title = 'Super Titre';
