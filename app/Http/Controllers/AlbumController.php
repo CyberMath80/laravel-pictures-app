@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{ Album, Category, Tag};
+use App\Models\{ Album, Category, Tag };
 use Illuminate\Http\Request;
 use App\Http\Requests\AlbumRequest;
 use DB, Auth;
@@ -73,7 +73,7 @@ class AlbumController extends Controller
                 return $value != '' && $value != ' ';
             })->all();
 
-            //dd($categories);
+            //dd($tags);
             foreach($tags as $t) {
                 $tag = Tag::firstOrCreate(['name' => ucfirst(trim($t))]);
                 $album->tags()->attach($tag->id);

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\MaxWords;
 
 class AlbumRequest extends FormRequest
 {
@@ -26,7 +27,7 @@ class AlbumRequest extends FormRequest
         return [
             'title' => ['required', 'max:191'],
             'description' => ['required'],
-            'categories' => ['required', 'max:191'],
+            'categories' => ['required', new MaxWords],
             'tags' => ['required', 'max:191'],
         ];
     }
