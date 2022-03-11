@@ -5531,11 +5531,89 @@ $(document).ready(function () {
 
     $(this).on('submit', function (e) {
       e.preventDefault();
-      var method = $(_this).find('input[name="_method"]').val() || $(_this).attr('method');
-      alert(method);
+      var method = $(_this).find('input[name="_method"]').val() || $(_this).attr('method'); //alert(method);
+
+      var data = $(_this).serialize(); //alert(data); return false;
+
+      $.ajax({
+        type: method,
+        url: $(_this).attr('action'),
+        data: data,
+        dataType: 'json',
+        success: function success(response) {
+          console.log(response);
+
+          if (response.success) {
+            var redirect = response.redirect || null;
+            handleSuccess(response.success, redirect);
+          }
+        },
+        error: function error(xhr, status, err) {
+          //console.log(xhr, status, err);
+          //console.log(xhr.status);
+          handleErrors(xhr);
+        }
+      });
     });
   });
 });
+
+function handleSuccess(success, redirect) {
+  sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+    icon: 'success',
+    title: 'Oh Yeah !',
+    html: success,
+    allowOutsideClick: false
+  }).then(function (result) {
+    if (result.value && redirect) window.location = redirect;
+  });
+}
+
+function handleErrors(xhr) {
+  switch (xhr.status) {
+    case 404:
+      sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+        icon: 'error',
+        title: 'Ouh lalaaa !',
+        text: 'Cette page n\'existe pas !'
+      });
+      break;
+
+    case 419:
+      sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+        icon: 'error',
+        title: 'Ouh lalaaa !',
+        text: 'Jeton de sécurité invalide ! Veuillez recharger la page en cliquant sur OK.'
+      }).then(function (result) {
+        if (result.value) window.location.reload(true);
+      });
+      break;
+
+    case 422:
+      //erreur de validation
+      //console.log(xhr.responseJSON.errors);
+      var errorString = '';
+      $.each(xhr.responseJSON.errors, function (key, value) {
+        errorString += '<p>' + value + '</p>';
+      });
+      sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+        icon: 'error',
+        title: 'Erreur !',
+        html: errorString
+      });
+      break;
+
+    default:
+      sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+        icon: 'error',
+        title: 'Ouh lalaaa !',
+        text: 'Une erreur est survenue, veuillez recharger la page en cliquant sur OK.'
+      }).then(function (result) {
+        if (result.value) window.location.reload(true);
+      });
+      break;
+  }
+}
 
 /***/ }),
 

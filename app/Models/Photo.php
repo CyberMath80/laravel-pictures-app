@@ -15,6 +15,8 @@ class Photo extends Model
 
     protected $perPage = 9;
 
+    protected $fillable = ['title', 'album_id'];
+
     public static function boot() {
         parent::boot();
 

@@ -86,9 +86,11 @@ class AlbumController extends Controller
 
         DB::commit();
 
+        $redirect = route('photos.create', [$album->slug]);
         $success = 'Album ajouté';
-
-        return back()->withSuccess($success);
+        return $request->ajax() ?
+            response()->json(['success' => $success, 'redirect' => $redirect]) :
+            redirect($redirect)->withSuccess($success);
     }
 
     /**
