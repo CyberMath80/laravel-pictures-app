@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\{ Photo, Album, User, Source, Tag};
 use App\Http\Requests\PhotoRequest;
+use App\Jobs\ResizePhoto;
+
 use DB, Image, Storage, Str, Mail;
 
 class PhotoController extends Controller
@@ -55,8 +57,9 @@ class PhotoController extends Controller
                     'width' => $originalWidth,
                     'height' => $originalHeight,
                 ]);
-
-                $thumbnailImage = Image::make(Storage::get($originalSource->path))->fit(350, 233, function($constraint) {
+                // resize photo
+                ResizePhoto::dispatch($originalSource, $photo, $ext);
+                /*$thumbnailImage = Image::make(Storage::get($originalSource->path))->fit(350, 233, function($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 })->encode($ext, 50);
@@ -75,7 +78,22 @@ class PhotoController extends Controller
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     })->encode($ext);
-                }
+
+                    $filename = Str::uuid().'.'.$ext;
+                    $path = 'photos/'.$photo->album_id.'/'.$filename;
+                    Storage::put($path, $img);
+
+                    $photo->sources()->create([
+                        'path' => $path,
+                        'url' => Storage::url($path),
+                        'size' => Storage::size($path),
+                        'width' => $width,
+                        'height' => $height,
+                    ]);
+
+                    $photo->active = true;
+                    $photo->save();
+                }*/
             }
         }
         catch(ValidationException $e) {
