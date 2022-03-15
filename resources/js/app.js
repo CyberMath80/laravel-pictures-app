@@ -1,5 +1,7 @@
 require('./bootstrap');
-require('alpinejs');
+
+import Alpine from 'alpinejs';
+Alpine.start();
 
 import Swal from 'sweetalert2';
 

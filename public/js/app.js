@@ -5517,12 +5517,13 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var alpinejs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/module.esm.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_1__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-__webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/module.esm.js");
 
+alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"].start();
 
 $(document).ready(function () {
   var ajaxForm = $('form.ajax-form');
@@ -5559,7 +5560,7 @@ $(document).ready(function () {
 });
 
 function handleSuccess(success, redirect) {
-  sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+  sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
     icon: 'success',
     title: 'Oh Yeah !',
     html: success,
@@ -5572,7 +5573,7 @@ function handleSuccess(success, redirect) {
 function handleErrors(xhr) {
   switch (xhr.status) {
     case 404:
-      sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+      sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
         icon: 'error',
         title: 'Ouh lalaaa !',
         text: 'Cette page n\'existe pas !'
@@ -5580,7 +5581,7 @@ function handleErrors(xhr) {
       break;
 
     case 419:
-      sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+      sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
         icon: 'error',
         title: 'Ouh lalaaa !',
         text: 'Jeton de sécurité invalide ! Veuillez recharger la page en cliquant sur OK.'
@@ -5596,7 +5597,7 @@ function handleErrors(xhr) {
       $.each(xhr.responseJSON.errors, function (key, value) {
         errorString += '<p>' + value + '</p>';
       });
-      sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+      sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
         icon: 'error',
         title: 'Erreur !',
         html: errorString
@@ -5604,7 +5605,7 @@ function handleErrors(xhr) {
       break;
 
     default:
-      sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+      sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
         icon: 'error',
         title: 'Ouh lalaaa !',
         text: 'Une erreur est survenue, veuillez recharger la page en cliquant sur OK.'

@@ -59,41 +59,6 @@ class PhotoController extends Controller
                 ]);
                 // resize photo
                 ResizePhoto::dispatch($originalSource, $photo, $ext);
-                /*$thumbnailImage = Image::make(Storage::get($originalSource->path))->fit(350, 233, function($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                })->encode($ext, 50);
-
-                $thumbnailPath = 'photos/'.$photo->album_id.'/thumbnails/'.$filename;
-                Storage::put($thumbnailPath, $thumbnailImage);
-                $photo->thumbnail_path = $thumbnailPath;
-                $photo->thumbnail_url = Storage::url($thumbnailPath);
-                $photo->save();
-
-                for($i = 2; $i <= 6; $i++) {
-                    $width = (int) round($originalSource->width / $i);
-                    $height = (int) round($originalSource->height / $i);
-
-                    $img = Image::make(Storage::get($originalSource->path))->fit($width, $height, function($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    })->encode($ext);
-
-                    $filename = Str::uuid().'.'.$ext;
-                    $path = 'photos/'.$photo->album_id.'/'.$filename;
-                    Storage::put($path, $img);
-
-                    $photo->sources()->create([
-                        'path' => $path,
-                        'url' => Storage::url($path),
-                        'size' => Storage::size($path),
-                        'width' => $width,
-                        'height' => $height,
-                    ]);
-
-                    $photo->active = true;
-                    $photo->save();
-                }*/
             }
         }
         catch(ValidationException $e) {

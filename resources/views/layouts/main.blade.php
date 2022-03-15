@@ -32,9 +32,9 @@
                             <i class="fas fa-ellipsis-v"></i>
                         </a>
                         <ul class="navbar-nav">
-                            <li class="nav-item active"><a href="#" class="nav-link">Application</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link">Report Something</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link">Server Status</a></li>
+                            <li class="nav-item active"><a href="{{ route('home') }}" class="nav-link">Application</a></li>
+                            <li class="nav-item"><a href="{{ route('home') }}" class="nav-link">Report Something</a></li>
+                            <li class="nav-item"><a href="{{ route('home') }}" class="nav-link">Server Status</a></li>
                         </ul>
                     </div>
                     <form class="form-inline ml-auto">
@@ -104,6 +104,7 @@
                             </div>
                         </div>
                     </form>
+@auth
                     <ul class="navbar-nav navbar-right">
                         <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link nav-link-lg message-toggle beep"><i class="far fa-envelope"></i></a>
                             <div class="dropdown-menu dropdown-list dropdown-menu-right">
@@ -232,7 +233,7 @@
                         </li>
                         <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                                 <img alt="image" src="../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
-                                <div class="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div></a>
+                                <div class="d-sm-none d-lg-inline-block">Hi, {{ $user->name }}</div></a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <div class="dropdown-title">Logged in 5 min ago</div>
                                 <a href="features-profile.html" class="dropdown-item has-icon">
@@ -245,12 +246,29 @@
                                     <i class="fas fa-cog"></i> Settings
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item has-icon text-danger">
-                                    <i class="fas fa-sign-out-alt"></i> Logout
-                                </a>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button class="btn btn-outline-danger w-50 float-right mr-2" type="submit" onclick="event.preventDefault(); this.closest('form').submit();"><i class="fas fa-sign-out-alt mt-2"></i> {{ __('Log Out') }}</button>
+                                </form>
                             </div>
                         </li>
                     </ul>
+@endauth
+@guest
+                    <ul class="navbar-nav navbar-right">
+                        <li class="dropdown dropdown-list-toggle ml-3">
+                            <a href="{{ route('login') }}" class="btn btn-success btn-lg dropdown-item has-icon" style="display:inline-block; width: 132px;">
+                                <i class="fas fa-sign-in-alt" style="margin-top: .5px;"></i> Sign In
+                            </a>
+                        </li>
+                        <li class="dropdown dropdown-list-toggle ml-3">
+                            <a href="{{ route('register') }}" class="btn btn-success btn-lg dropdown-item has-icon" style="display:inline-block; width: 132px;">
+                                <i class="fas fa-user-plus"></i> Sign Up
+                            </a>
+                        </li>
+                    </ul>
+@endguest
+
                 </nav>
 
                 <nav class="navbar navbar-secondary navbar-expand-lg">

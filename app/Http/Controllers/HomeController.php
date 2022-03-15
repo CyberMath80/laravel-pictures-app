@@ -19,8 +19,9 @@ class HomeController extends Controller
 
     public function __invoke(Request $request)
     {
+        $user = auth()->user();
         //Auth::logout();
-        Auth::login(User::first());
+        //Auth::login(User::first());
         //Photo::latest()->first()->replicate()->save();
         //$photo = Photo::find(31);
         //$photo->title = 'Super Titre';
@@ -41,6 +42,7 @@ class HomeController extends Controller
             'description' => 'Application web de '.$title.' : '.config('app.name'),
             'heading' => config('app.name'),
             'photos' => $photos,
+            'user' => $user,
         ];
 
         return view('home.index', $data);
