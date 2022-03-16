@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{ Album, Category, Tag };
+use App\Models\{ Album, Category, Tag, User };
 use Illuminate\Http\Request;
 use App\Http\Requests\AlbumRequest;
 use DB, Auth;
@@ -21,7 +21,7 @@ class AlbumController extends Controller
     public function index() { // liste des albums de l'user connecté
         //dd(auth()->user()->name);
         $albums = auth()->user()->albums()->with('photos', fn($query) => $query->withoutGlobalScope('active')->orderByDesc('created_at'))->orderByDesc('updated_at')->paginate();
-
+        $user = auth()->user();
         //dd($albums);
 
         $data = [
@@ -29,6 +29,7 @@ class AlbumController extends Controller
             'description' => $description,
             'albums' => $albums,
             'heading' => $description,
+            'user' => $user,
         ];
 
         return view('album.index', $data);
