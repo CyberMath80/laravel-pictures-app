@@ -25,7 +25,7 @@ class PhotoRequest extends FormRequest
     {
         return [
             'title' => ['required', 'max:191'],
-            'photo' => ['required', 'file', 'image', 'mimes:jpeg,jpg,png', 'dimensions:min_width=1920, min_height=1080'],
+            'photo' => ['required', 'file', 'image', 'mimes:jpeg,png', 'dimensions:min_width=1920, min_height=1080'],
             'tags' => ['required', 'max:191'],
         ];
     }

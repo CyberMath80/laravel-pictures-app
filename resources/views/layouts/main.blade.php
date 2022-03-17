@@ -315,6 +315,7 @@
                     <div class="footer-right">
                         2.3.0
                     </div>
+                    @php echo phpinfo(); @endphp
                 </footer>
             </div>
         </div>

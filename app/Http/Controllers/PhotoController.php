@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{ Photo, Album, User, Source, Tag};
+use App\Models\{ Photo, Album, User, Source, Tag  };
 use App\Http\Requests\PhotoRequest;
 use App\Jobs\ResizePhoto;
 
@@ -19,6 +19,7 @@ class PhotoController extends Controller
             'description' => $description,
             'album' => $album,
             'heading' => $album->title,
+            'user' => auth()->user(),
         ];
 
         return view('photo.create', $data);
@@ -62,7 +63,7 @@ class PhotoController extends Controller
             }
         }
         catch(ValidationException $e) {
-            db::Rollback();
+            DB::rollBack();
             dd($e->getErrors());
         }
 
