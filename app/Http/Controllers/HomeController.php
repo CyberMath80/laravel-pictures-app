@@ -19,6 +19,7 @@ class HomeController extends Controller
 
     public function __invoke(Request $request)
     {
+        //Cache::flush();
         $user = auth()->user();
         //Auth::logout();
         //Auth::login(User::first());

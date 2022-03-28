@@ -58,6 +58,7 @@ class ResizePhoto implements ShouldQueue
                 $constraint->upsize();
             })->encode($this->ext);
 
+            $filename = Str::uuid().'.'.$this->ext;
             $path = 'photos/'.$this->photo->album_id.'/'.$filename;
             Storage::put($path, $img);
 

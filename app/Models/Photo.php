@@ -17,22 +17,6 @@ class Photo extends Model
 
     protected $fillable = ['title', 'album_id'];
 
-    public static function boot() {
-        parent::boot();
-
-        static::created(function() {
-            Cache::flush();
-        });
-
-        static::updated(function() {
-            Cache::flush();
-        });
-
-        static::deleted(function() {
-            Cache::flush();
-        });
-    }
-
     protected static function booted() {
         static::addGlobalScope('active', function(Builder $builder) {
             $builder->where('active', true);

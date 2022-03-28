@@ -59,14 +59,15 @@ class PhotoController extends Controller
                     'height' => $originalHeight,
                 ]);
                 // resize photo
-                ResizePhoto::dispatch($originalSource, $photo, $ext);
+                //ResizePhoto::dispatch($originalSource, $photo, $ext);
+                DB::afterCommit(fn() => ResizePhoto::dispatch($originalSource, $photo, $ext));
             }
         }
         catch(ValidationException $e) {
             DB::rollBack();
             dd($e->getErrors());
         }
-
+        
         DB::commit();
 
         $success = 'Photo enregistrée';

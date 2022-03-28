@@ -22,3 +22,14 @@
 div.error {
     color: #F55;
 }
+
+div.destroy.text-right a {
+    display: inline-block;
+    width: 20%;
+    text-align: center;
+}
+
+div.destroy.text-right i {
+    font-size: 1.5rem;
+    width: 100%;
+}
