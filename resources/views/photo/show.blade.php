@@ -56,15 +56,15 @@
                                 @endif
 
                                 <div>
-                                    <form action="" method="post">
+                                    <form action="{{ route('photo.download') }}" method="post">
                                         @csrf
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <select class="custom-select" name="source">
                                                     {{-- <option value=""></option> --}}
-                                                    {{--@foreach($photo->sources as $source)
-                                                        <option value="{{ $source->id }}" @if(old('source') == $source->id) selected @endif>{{ $source->dimensions }} - {{ $source->convertToMo($source->size) }}</option>
-                                                    @endforeach--}}
+                                                    @foreach($photo->sources as $source)
+                                                        <option value="{{ $source->id }}" @if(old('source') == $source->id) selected @endif>{{ $source->width }} X {{ $source->height }} - {{ $source->convertToMo($source->size) }}</option>
+                                                    @endforeach
                                                 </select>
                                                 @error('source')
                                                 <div class="error">{{ $message }}</div>

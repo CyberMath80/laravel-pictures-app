@@ -25,7 +25,7 @@ Route::get('/', HomeController::class)->name('home');
 
 Route::resource('albums', AlbumController::class);
 Route::get('photo/{photo}', [PhotoController::class, 'show'])->name('photo.show');
-
+Route::post('download', [PhotoController::class, 'download'])->name('photo.download')->middleware('verified');
 Route::middleware(['auth', 'verified'])->group(function() {
     // user authentifié et vérifié
     Route::get('photo/create/{album}', [PhotoController::class, 'create'])->name('photo.create');
