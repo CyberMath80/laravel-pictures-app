@@ -20,7 +20,7 @@ class SourceFactory extends Factory
     {
         $width = 640;
         $height = 480;
-        $path = $this->faker->image('public/storage/photos', $width, $height, null, true, true, true, false);
+        $path = $this->faker->image('public/storage/photo', $width, $height, null, true, true, true, false);
 
         return [
             'photo_id' => Photo::factory(),

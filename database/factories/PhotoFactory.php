@@ -26,7 +26,7 @@ class PhotoFactory extends Factory
         return [
             'album_id' => Album::factory(),
             'title' => $this->faker->sentence,
-            'thumbnail_path' => $path = 'storage/'.Storage::disk('public')->putFile('photos', $imageFile),
+            'thumbnail_path' => $path = 'storage/'.Storage::disk('public')->putFile('photo', $imageFile),
             'thumbnail_url' => config('app.url').'/'.Str::after($path, 'public/'),
         ];
     }

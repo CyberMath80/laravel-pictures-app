@@ -24,7 +24,7 @@
                                     <div class="alert alert-success">{{ session('success') }}</div>
                                 @endif
 
-                                <form action="{{ route('photos.store', [$album->slug]) }}" method="post" class="withFile" enctype="multipart/form-data">
+                                <form action="{{ route('photo.store', [$album->slug]) }}" method="post" class="withFile" enctype="multipart/form-data">
                                     @csrf
 
                                     <div class="form-group">

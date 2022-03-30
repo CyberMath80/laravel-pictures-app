@@ -43,7 +43,7 @@ class ResizePhoto implements ShouldQueue
         })->encode($this->ext, 50);
 
         $filename = Str::uuid().'.'.$this->ext;
-        $thumbnailPath = 'photos/'.$this->photo->album_id.'/thumbnails/'.$filename;
+        $thumbnailPath = 'photo/'.$this->photo->album_id.'/thumbnails/'.$filename;
         Storage::put($thumbnailPath, $thumbnailImage);
         $this->photo->thumbnail_path = $thumbnailPath;
         $this->photo->thumbnail_url = Storage::url($thumbnailPath);
@@ -59,7 +59,7 @@ class ResizePhoto implements ShouldQueue
             })->encode($this->ext);
 
             $filename = Str::uuid().'.'.$this->ext;
-            $path = 'photos/'.$this->photo->album_id.'/'.$filename;
+            $path = 'photo/'.$this->photo->album_id.'/'.$filename;
             Storage::put($path, $img);
 
             $this->photo->sources()->create([

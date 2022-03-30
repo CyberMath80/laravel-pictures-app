@@ -33,10 +33,10 @@ class HomeController extends Controller
         $photos = Cache::RememberForever('photos_'.$currentPage, function() {
             return Photo::with('album.user')->orderbyDesc('created_at')->paginate();
         });
-        /*$photos = Photo::with('album.user')
+        /*$photo = Photo::with('album.user')
             //->withoutGlobalScope('active')
             ->orderbyDesc('created_at')->paginate();*/
-        //dd($photos);
+        //dd($photo);
 
         $data = [
             'title' => $title = 'Photos libres de droit - '.config('app.name'),

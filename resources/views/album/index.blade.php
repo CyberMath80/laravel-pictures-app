@@ -36,7 +36,7 @@
                                             <div class="text-job"></div>
                                             @if(Auth::user()->id == $album->user_id)
                                                 <div class="destroy text-right">
-                                                    <a href="{{ route('photos.create', [$album->slug]) }}" class="mr-2">
+                                                    <a href="{{ route('photo.create', [$album->slug]) }}" class="mr-2">
                                                         <i class="fas fa-plus btn btn-info"></i>
                                                     </a>
                                                     <a href="{{ route('albums.edit', [$album->slug]) }}">

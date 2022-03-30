@@ -15,7 +15,7 @@ class PhotoController extends Controller
         abort_if($album->user_id != auth()->id(), 403);
 
         $data = [
-            'title' => $description = 'Ajouter des photos à '.$album->title,
+            'title' => $description = 'Ajouter des photo à '.$album->title,
             'description' => $description,
             'album' => $album,
             'heading' => $album->title,
@@ -47,7 +47,7 @@ class PhotoController extends Controller
                 $ext = $request->file('photo')->extension();
                 $filename = Str::uuid().'.'.$ext;
 
-                $originalPath = $request->file('photo')->storeAs('photos/'.$photo->album_id, $filename);
+                $originalPath = $request->file('photo')->storeAs('photo/'.$photo->album_id, $filename);
                 $originalWidth = (int) Image::make($request->file('photo'))->width();
                 $originalHeight = (int) Image::make($request->file('photo'))->height();
 
@@ -67,11 +67,33 @@ class PhotoController extends Controller
             DB::rollBack();
             dd($e->getErrors());
         }
-        
+
         DB::commit();
 
         $success = 'Photo enregistrée';
-        $redirect = route('photos.create', [$album->slug]);
+        $redirect = route('photo.create', [$album->slug]);
         return redirect($redirect)->withSuccess($success);
+    }
+
+    public function show(Photo $photo) {
+        //dd($photo);
+        $photo->load('tags:name,slug', 'album.tags:name,slug', 'album.categories:name,slug', 'sources');
+        //dd($photo);
+        $tags = collect($photo->tags)->merge(collect($photo->album->tags))->unique();
+
+        $categories = $photo->album->categories;
+
+        //dd($tags, $categories);
+
+        $data = [
+          'title' => $photo->title.' - '.config('app.name'),
+          'description' => $photo->title.' - '.$tags->implode('name', ', ').', '.$categories->implode('name', ', ').')',
+          'photo' => $photo,
+          'tags' => $tags,
+          'categories' => $categories,
+          'heading' => $photo->title,
+        ];
+
+        return view('photo.show', $data);
     }
 }
