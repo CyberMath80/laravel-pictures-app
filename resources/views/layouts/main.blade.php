@@ -106,7 +106,7 @@
                     </form>
 @auth
                     <ul class="navbar-nav navbar-right">
-                        <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link nav-link-lg message-toggle beep"><i class="far fa-envelope"></i></a>
+                        {{--<li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link nav-link-lg message-toggle beep"><i class="far fa-envelope"></i></a>
                             <div class="dropdown-menu dropdown-list dropdown-menu-right">
                                 <div class="dropdown-header">Messages
                                     <div class="float-right">
@@ -171,76 +171,44 @@
                                     <a href="#">View All <i class="fas fa-chevron-right"></i></a>
                                 </div>
                             </div>
-                        </li>
+                        </li>--}}
+@if(count(Auth::user()->unreadNotifications))
                         <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep"><i class="far fa-bell"></i></a>
                             <div class="dropdown-menu dropdown-list dropdown-menu-right">
                                 <div class="dropdown-header">Notifications
                                     <div class="float-right">
-                                        <a href="#">Mark All As Read</a>
+                                        <a href="{{ route('notifications.read') }}">Marquer comme lues</a>
                                     </div>
                                 </div>
                                 <div class="dropdown-list-content dropdown-list-icons">
+@foreach(Auth::user()->unreadNotifications as $notification)
                                     <a href="#" class="dropdown-item dropdown-item-unread">
-                                        <div class="dropdown-item-icon bg-primary text-white">
-                                            <i class="fas fa-code"></i>
+                                        <div class="dropdown-item-icon text-white mt-2">
+                                            <img style="border-radius:15%;" src="{{ $notification->data['photo']['thumbnail_url'] }}" alt="{{ ucfirst($notification->data['photo']['title']) }}">
                                         </div>
                                         <div class="dropdown-item-desc">
-                                            Template update is available now!
-                                            <div class="time text-primary">2 Min Ago</div>
+                                            {{ ucfirst($notification->data['photo']['title']) }} Downloaded by {{ ucfirst($notification->data['user']['name']) }}
+                                            <div class="time text-primary">Le {{ $notification->created_at->isoFormat('LL') }}</div>
                                         </div>
                                     </a>
-                                    <a href="#" class="dropdown-item">
-                                        <div class="dropdown-item-icon bg-info text-white">
-                                            <i class="far fa-user"></i>
-                                        </div>
-                                        <div class="dropdown-item-desc">
-                                            <b>You</b> and <b>Dedik Sugiharto</b> are now friends
-                                            <div class="time">10 Hours Ago</div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="dropdown-item">
-                                        <div class="dropdown-item-icon bg-success text-white">
-                                            <i class="fas fa-check"></i>
-                                        </div>
-                                        <div class="dropdown-item-desc">
-                                            <b>Kusnaedi</b> has moved task <b>Fix bug header</b> to <b>Done</b>
-                                            <div class="time">12 Hours Ago</div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="dropdown-item">
-                                        <div class="dropdown-item-icon bg-danger text-white">
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                        </div>
-                                        <div class="dropdown-item-desc">
-                                            Low disk space. Let's clean it!
-                                            <div class="time">17 Hours Ago</div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="dropdown-item">
-                                        <div class="dropdown-item-icon bg-info text-white">
-                                            <i class="fas fa-bell"></i>
-                                        </div>
-                                        <div class="dropdown-item-desc">
-                                            Welcome to Stisla template!
-                                            <div class="time">Yesterday</div>
-                                        </div>
-                                    </a>
+@endforeach
                                 </div>
                                 <div class="dropdown-footer text-center">
                                     <a href="#">View All <i class="fas fa-chevron-right"></i></a>
                                 </div>
                             </div>
                         </li>
+@endif
                         <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                                 <img alt="image" src="../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
-                                <div class="d-sm-none d-lg-inline-block">Hi, {{ $user->name ?? '' }}</div></a>
+                                <div class="d-sm-none d-lg-inline-block">Hi, {{ Auth::user()->name }}</div></a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <div class="dropdown-title">Logged in 5 min ago</div>
-                                <a href="features-profile.html" class="dropdown-item has-icon">
-                                    <i class="far fa-user"></i> Profile
+                                {{--<div class="dropdown-title">Logged in 5 min ago</div>--}}
+                                <a href="{{ route('albums.create') }}" class="dropdown-item has-icon">
+                                    <i class="far fa-user"></i> Créer album
                                 </a>
-                                <a href="features-activities.html" class="dropdown-item has-icon">
-                                    <i class="fas fa-bolt"></i> Activities
+                                <a href="{{ route('albums.index') }}" class="dropdown-item has-icon">
+                                    <i class="fas fa-bolt"></i> Mes albums
                                 </a>
                                 <a href="features-settings.html" class="dropdown-item has-icon">
                                     <i class="fas fa-cog"></i> Settings

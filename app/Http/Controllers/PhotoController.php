@@ -8,6 +8,7 @@ use App\Http\Requests\PhotoRequest;
 use App\Jobs\ResizePhoto;
 
 use DB, Image, Storage, Str, Mail;
+use App\Notifications\PhotoDownloaded;
 
 class PhotoController extends Controller
 {
@@ -97,6 +98,11 @@ class PhotoController extends Controller
         return view('photo.show', $data);
     }
 
+    public function readAll() {
+        auth()->user()->unreadNotifications->markAsRead();
+        return back();
+    }
+
     public function download() {
         request()->validate([
             'source' => ['required', 'exists:sources,id'],
@@ -106,6 +112,10 @@ class PhotoController extends Controller
         $source->load('photo.album.user');
 
         abort_if(! $source->photo->active, 403);
+
+        if(auth()->id() != $source->photo->album->user_id) {
+            $source->photo->album->user->notify(new PhotoDownloaded($source, $source->photo, auth()->user()));
+        }
 
         return Storage::download($source->path);
     }
