@@ -5530,18 +5530,49 @@ $(document).ready(function () {
   var progress = $('#progress');
   var progressbar = $(progress).find('#progressbar');
   var withFile = $('form.withFile');
-  $(withFile).each(function () {
+  var vote = $('a.vote');
+  $(vote).each(function () {
     var _this = this;
+
+    $(this).on('click', function (e) {
+      e.preventDefault(); //alert('Vote !');
+
+      $.ajax({
+        url: $(_this).attr('href'),
+        type: 'GET',
+        dataType: 'json',
+        success: function success(response) {
+          if (response.success) {
+            var redirect = response.redirect || null;
+            handleSuccess(response.success, redirect);
+          }
+
+          if (response.error) {
+            sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
+              icon: 'error',
+              title: 'Erreur !',
+              text: response.error
+            });
+          }
+        },
+        error: function error(xhr, status, err) {
+          handleErrors(xhr);
+        }
+      });
+    });
+  });
+  $(withFile).each(function () {
+    var _this2 = this;
 
     $(this).on('submit', function (e) {
       e.preventDefault();
-      var form = $(_this);
-      var method = $(_this).find('input[name="_method"]').val() || $(_this).attr('method');
-      var url = $(_this).attr('action');
-      var data = new FormData(_this);
-      var button = $(_this).find('button');
+      var form = $(_this2);
+      var method = $(_this2).find('input[name="_method"]').val() || $(_this2).attr('method');
+      var url = $(_this2).attr('action');
+      var data = new FormData(_this2);
+      var button = $(_this2).find('button');
       $(button).prop('disabled', true);
-      var inputFile = $(_this).find('input[type="file"]');
+      var inputFile = $(_this2).find('input[type="file"]');
       var file = $(inputFile).get(0).files;
 
       if ($(file).length) {
@@ -5583,7 +5614,8 @@ $(document).ready(function () {
               sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
                 icon: 'error',
                 title: 'Oops... 😕',
-                html: errorString
+                html: errorString,
+                allowOutsideClick: false
               });
               return false;
             }
@@ -5608,17 +5640,17 @@ $(document).ready(function () {
     });
   });
   $(ajaxForm).each(function () {
-    var _this2 = this;
+    var _this3 = this;
 
     $(this).on('submit', function (e) {
       e.preventDefault();
-      var method = $(_this2).find('input[name="_method"]').val() || $(_this2).attr('method'); //alert(method);
+      var method = $(_this3).find('input[name="_method"]').val() || $(_this3).attr('method'); //alert(method);
 
-      var data = $(_this2).serialize(); //alert(data); return false;
+      var data = $(_this3).serialize(); //alert(data); return false;
 
       $.ajax({
         type: method,
-        url: $(_this2).attr('action'),
+        url: $(_this3).attr('action'),
         data: data,
         dataType: 'json',
         success: function success(response) {
@@ -5643,10 +5675,9 @@ function handleSuccess(success, redirect) {
   sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
     icon: 'success',
     title: 'Oh Yeah !',
-    html: success,
-    allowOutsideClick: false
+    html: success
   }).then(function (result) {
-    if (result.value && redirect) window.location = redirect;
+    if (result.value && redirect || redirect) window.location = redirect;
   });
 }
 
@@ -5656,7 +5687,8 @@ function handleErrors(xhr) {
       sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
         icon: 'error',
         title: 'Ouch !',
-        text: 'Cette page n\'existe pas !'
+        text: 'Cette page n\'existe pas !',
+        allowOutsideClick: false
       });
       break;
 
@@ -5664,7 +5696,8 @@ function handleErrors(xhr) {
       sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
         icon: 'error',
         title: 'Ouch !',
-        text: 'Jeton de sécurité invalide ! Veuillez recharger la page en cliquant sur OK.'
+        text: 'Jeton de sécurité invalide ! Veuillez recharger la page en cliquant sur OK.',
+        allowOutsideClick: false
       }).then(function (result) {
         if (result.value) window.location.reload(true);
       });
@@ -5680,7 +5713,8 @@ function handleErrors(xhr) {
       sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
         icon: 'error',
         title: 'Erreur !',
-        html: errorString
+        html: errorString,
+        allowOutsideClick: false
       });
       break;
 
@@ -5688,7 +5722,8 @@ function handleErrors(xhr) {
       sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
         icon: 'error',
         title: 'Ouch !',
-        text: 'Une erreur est survenue, veuillez recharger la page en cliquant sur OK.'
+        text: 'Une erreur est survenue, veuillez recharger la page en cliquant sur OK.',
+        allowOutsideClick: false
       }).then(function (result) {
         if (result.value) window.location.reload(true);
       });

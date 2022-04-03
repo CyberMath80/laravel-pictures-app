@@ -1,9 +1,6 @@
 @extends('layouts.main')
-
 @section('content')
-
-    <!-- Main Content -->
-    <div class="main-content">
+    <div class="main-content"> <!-- Main Content -->
         <section class="section">
             <div class="section-header d-block">
                 <h1>
@@ -19,33 +16,32 @@
                         <a href="">{{ ucFirst($tag->name) }}</a>
                     @endforeach
                 </div>
-                <div class="article-category"><div class="bullet"></div>Résolution max {{ $photo->sources->max('width') }} X {{ $photo->sources->max('height') }}</div>
+                <div class="article-category"><div class="bullet"></div> Résolution max {{ $photo->sources->max('width') }} X {{ $photo->sources->max('height') }}</div>
             </div>
 
             <div class="section-body">
                 <h2 class="section-title">
-                    {{ $heading }} - Photo postée par <a href="">{{ ucfirst($photo->album->user->name) }}</a> le {{ $photo->album->updated_at->isoFormat('LL') }}
+                    {{ ucfirst($heading) }} - Photo postée par <a href="">{{ ucfirst($photo->album->user->name) }}</a> le {{ $photo->album->updated_at->isoFormat('LL') }}
                 </h2>
                 <div class="row">
                     <div class="col-12 col-md-12 col-lg-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h4>Autres résolutions</h4>
-
-                               {{-- <span class="text-right">
-                      <a class="vote" href="{{ route('photo.vote', ['photo' => $photo->slug, 'vote' =>'like', 'token' => Session::token()]) }}">
-                        <i class="far fa-thumbs-up"></i> {{ $photo->count_likes }}
-                      </a>
-                    </span>
-                                &nbsp; &nbsp;
-                                <span class="text-right">
-                      <a class="vote" href="{{ route('photo.vote', ['photo' => $photo->slug, 'vote' =>'dislike', 'token' => Session::token()]) }}">
-                        <i class="far fa-thumbs-down"></i> {{ $photo->count_dislikes }}
-                      </a>
-                    </span>--}}
-
-                            </div>
-                            <div class="card-body">
+                            <div class="card-header d-block">
+                                <h4 class="mb-4">Un ptit coup de pouce ?</h4>
+                                <p>N'oubliez pas de voter pour cette photo...</p>
+                                <div>
+                                    <span class="d-inline-block">
+                                    <a class="vote" href="{{ route('photo.vote', ['photo' => $photo->slug, 'vote' =>'like', 'token' => Session::token()]) }}">
+                                        <i class="far fa-thumbs-up text-success"></i> {{ $photo->count_likes }}
+                                    </a>
+                                    </span>
+                                    &nbsp; &nbsp;
+                                    <span class="d-inline-block">
+                                        <a class="vote" href="{{ route('photo.vote', ['photo' => $photo->slug, 'vote' =>'dislike', 'token' => Session::token()]) }}">
+                                            <i class="far fa-thumbs-down text-danger"></i> {{ $photo->count_dislikes }}
+                                        </a>
+                                    </span>
+                                </div>
 
                                 @if(session('success'))
                                     <div class="alert alert-success">{{ session('success') }}</div>
@@ -55,6 +51,9 @@
                                     <div class="alert alert-danger">{{ session('error') }}</div>
                                 @endif
 
+                                <h4 class="mt-4">Autres résolutions disponibles au téléchargement</h4>
+                            </div>
+                            <div class="card-body">
                                 <div>
                                     <form action="{{ route('photo.download') }}" method="post">
                                         @csrf
@@ -83,17 +82,13 @@
                                         <div class="carousel-item active">
                                             <img class="d-block w-100" src="{{ $photo->sources->first()->url }}" alt="{{ $photo->title }}">
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </section>
     </div>
-
 @stop

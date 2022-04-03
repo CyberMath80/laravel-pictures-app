@@ -10,6 +10,35 @@ $(document).ready(function(){
     let progress = $('#progress');
     let progressbar = $(progress).find('#progressbar');
     let withFile = $('form.withFile');
+    let vote = $('a.vote');
+
+    $(vote).each(function(){
+        $(this).on('click', (e) => {
+            e.preventDefault();
+            //alert('Vote !');
+            $.ajax({
+                url: $(this).attr('href'),
+                type: 'GET',
+                dataType: 'json',
+                success: (response) => {
+                    if(response.success) {
+                        let redirect = response.redirect || null;
+                        handleSuccess(response.success, redirect);
+                    }
+                    if(response.error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erreur !',
+                            text: response.error,
+                        });
+                    }
+                },
+                error: (xhr, status, err) => {
+                    handleErrors(xhr);
+                }
+            })
+        })
+    })
 
     $(withFile).each(function(){
         $(this).on('submit', (e) => {
@@ -68,6 +97,7 @@ $(document).ready(function(){
                                     icon: 'error',
                                     title: 'Oops... 😕',
                                     html: errorString,
+                                    allowOutsideClick: false,
                                 })
                                 return false;
                             }
@@ -128,9 +158,8 @@ function handleSuccess(success, redirect) {
         icon: 'success',
         title: 'Oh Yeah !',
         html: success,
-        allowOutsideClick: false,
     }).then((result) => {
-        if(result.value && redirect) window.location = redirect;
+        if((result.value && redirect) || redirect) window.location = redirect;
     });
 }
 
@@ -140,14 +169,16 @@ function handleErrors(xhr) {
             Swal.fire({
                 icon: 'error',
                 title: 'Ouch !',
-                text: 'Cette page n\'existe pas !'
+                text: 'Cette page n\'existe pas !',
+                allowOutsideClick: false,
             });
             break;
         case 419:
             Swal.fire({
                 icon: 'error',
                 title: 'Ouch !',
-                text: 'Jeton de sécurité invalide ! Veuillez recharger la page en cliquant sur OK.'
+                text: 'Jeton de sécurité invalide ! Veuillez recharger la page en cliquant sur OK.',
+                allowOutsideClick: false,
             }).then((result) => {
                 if(result.value) window.location.reload(true);
             });
@@ -161,14 +192,16 @@ function handleErrors(xhr) {
             Swal.fire({
                 icon: 'error',
                 title: 'Erreur !',
-                html: errorString
+                html: errorString,
+                allowOutsideClick: false,
             });
             break;
         default:
             Swal.fire({
                 icon: 'error',
                 title: 'Ouch !',
-                text: 'Une erreur est survenue, veuillez recharger la page en cliquant sur OK.'
+                text: 'Une erreur est survenue, veuillez recharger la page en cliquant sur OK.',
+                allowOutsideClick: false,
             }).then((result) => {
                 if(result.value) window.location.reload(true);
             });

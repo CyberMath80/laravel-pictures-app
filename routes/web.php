@@ -35,7 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
         return auth()->user()->email_verified_at->diffForHumans();
     });*/
 });
-
+Route::get('vote/{photo}/{vote}/{token}', [PhotoController::class, 'vote'])->name('photo.vote');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
