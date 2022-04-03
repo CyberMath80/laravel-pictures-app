@@ -32,6 +32,15 @@ class PhotoDownloaded extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this
+            ->replyTo(config('mail.from.address'))
+            ->priority(1)
+            ->subject('Votre téléchargement')
+            ->view('emails.photo')
+            ->with([
+                'source' => $this->source,
+                'user' => $this->user,
+            ])
+            ->attachFromStorage($this->source->path);
     }
 }

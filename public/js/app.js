@@ -5527,18 +5527,98 @@ alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"].start();
 
 $(document).ready(function () {
   var ajaxForm = $('form.ajax-form');
-  $(ajaxForm).each(function () {
+  var progress = $('#progress');
+  var progressbar = $(progress).find('#progressbar');
+  var withFile = $('form.withFile');
+  $(withFile).each(function () {
     var _this = this;
 
     $(this).on('submit', function (e) {
       e.preventDefault();
-      var method = $(_this).find('input[name="_method"]').val() || $(_this).attr('method'); //alert(method);
+      var form = $(_this);
+      var method = $(_this).find('input[name="_method"]').val() || $(_this).attr('method');
+      var url = $(_this).attr('action');
+      var data = new FormData(_this);
+      var button = $(_this).find('button');
+      $(button).prop('disabled', true);
+      var inputFile = $(_this).find('input[type="file"]');
+      var file = $(inputFile).get(0).files;
 
-      var data = $(_this).serialize(); //alert(data); return false;
+      if ($(file).length) {
+        var filename = $(inputFile).get(0).files[0].name;
+        data.append(filename, $(inputFile.get(0).files[0]));
+        $(progress).show();
+        var config = {
+          url: url,
+          method: method,
+          data: data,
+          responseType: 'json',
+          onUploadProgress: function onUploadProgress(e) {
+            var percentCompleted = Math.round(e.loaded * 100 / e.total); //console.log(percentCompleted);
+
+            $(progressbar).width(percentCompleted + '%').text(percentCompleted + '%');
+
+            if (percentCompleted == 100) {
+              $(progress).fadeOut().width('0%').text('0%');
+            }
+          }
+        };
+        axios(config).then(function (response) {
+          $(button).prop('disabled', false); //console.log(response);
+
+          if (response.data.success) {
+            var redirect = response.data.redirect || null;
+            handleSuccess(response.data.success, redirect);
+          }
+        })["catch"](function (error) {
+          $(button).prop('disabled', false);
+
+          if (error.response) {
+            if (error.response.status === 422 && error.response.data.errors) {
+              console.log(error.response.data.errors);
+              var errorString = '';
+              $.each(error.response.data.errors, function (key, value) {
+                errorString += '<p>' + value + '</p>';
+              });
+              sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
+                icon: 'error',
+                title: 'Oops... 😕',
+                html: errorString
+              });
+              return false;
+            }
+
+            handleErrors(error.response);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log('Error', error.message);
+          }
+
+          console.log(error.config);
+        });
+      } else {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
+          icon: 'error',
+          title: 'Oups!',
+          text: 'Veuillez ajouter une image'
+        });
+        $(button).prop('disabled', false);
+      }
+    });
+  });
+  $(ajaxForm).each(function () {
+    var _this2 = this;
+
+    $(this).on('submit', function (e) {
+      e.preventDefault();
+      var method = $(_this2).find('input[name="_method"]').val() || $(_this2).attr('method'); //alert(method);
+
+      var data = $(_this2).serialize(); //alert(data); return false;
 
       $.ajax({
         type: method,
-        url: $(_this).attr('action'),
+        url: $(_this2).attr('action'),
         data: data,
         dataType: 'json',
         success: function success(response) {
@@ -5575,7 +5655,7 @@ function handleErrors(xhr) {
     case 404:
       sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
         icon: 'error',
-        title: 'Ouh lalaaa !',
+        title: 'Ouch !',
         text: 'Cette page n\'existe pas !'
       });
       break;
@@ -5583,7 +5663,7 @@ function handleErrors(xhr) {
     case 419:
       sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
         icon: 'error',
-        title: 'Ouh lalaaa !',
+        title: 'Ouch !',
         text: 'Jeton de sécurité invalide ! Veuillez recharger la page en cliquant sur OK.'
       }).then(function (result) {
         if (result.value) window.location.reload(true);
@@ -5607,7 +5687,7 @@ function handleErrors(xhr) {
     default:
       sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
         icon: 'error',
-        title: 'Ouh lalaaa !',
+        title: 'Ouch !',
         text: 'Une erreur est survenue, veuillez recharger la page en cliquant sur OK.'
       }).then(function (result) {
         if (result.value) window.location.reload(true);

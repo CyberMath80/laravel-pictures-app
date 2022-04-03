@@ -36,6 +36,14 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="tags">Tags séparés par des virgules</label>
+                                        <input type="text" name="tags" value="{{ old('tags') }}" placeholder="lac, tigre, avion" class="form-control">
+                                        @error('tags')
+                                        <div class="error">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="photo">Photo</label>
                                         <input type="file" name="photo" class="form-control">
                                         @error('photo')
@@ -43,16 +51,8 @@
                                         @enderror
                                     </div>
 
-                                    <div style="display: none;" class="progress" id="progress">
+                                    <div style="display:none;" class="progress" id="progress">
                                         <div id="progressbar" class="progress-bar" role="progressbar" style="width: 0%;">0%</div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="tags">Tags séparés par des virgules</label>
-                                        <input type="text" name="tags" value="{{ old('tags') }}" placeholder="lac, tigre, avion" class="form-control">
-                                        @error('tags')
-                                        <div class="error">{{ $message }}</div>
-                                        @enderror
                                     </div>
 
                                     <div class="card-footer text-right">
