@@ -27,7 +27,7 @@
                                     <img alt="{{ $photo->album->user->name }}" src="{{ asset('assets/img/avatar/avatar-1.png') }}">
                                     <div class="article-user-details">
                                         <div class="user-detail-name">
-                                            <a href="#">{{ $photo->album->user->name }}</a>
+                                            <a href="#">{{ $photo->album->user->name }}</a> - {{ $photo->album->user->photos->count() }} {{ Str::plural('photo', $photo->album->user->photos->count()) }}
                                         </div>
                                         <div class="text-job"><a href="#">{{  $photo->album->title  }}</a> {{ $photo->album->photos->count() }} {{ Str::plural('photo', $photo->album->photos->count()) }}</div>
                                     </div>
