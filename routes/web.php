@@ -31,6 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
     // user authentifié et vérifié
     Route::get('photo/create/{album}', [PhotoController::class, 'create'])->name('photo.create');
     Route::post('photo/store/{album}', [PhotoController::class, 'store'])->name('photo.store');
+    Route::delete('delete-photo/{photo}', [PhotoController::class, 'destroy'])->name('photo.destroy');
     /*Route::get('user', function() {
         return auth()->user()->email_verified_at->diffForHumans();
     });*/

@@ -37,3 +37,8 @@ div.destroy.text-right i {
 .vote i {
     font-size: 1.25rem;
 }
+
+div.destroy i {
+    color: #fff;
+    font-size: 1.25rem;
+}

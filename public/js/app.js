@@ -5531,14 +5531,52 @@ $(document).ready(function () {
   var progressbar = $(progress).find('#progressbar');
   var withFile = $('form.withFile');
   var vote = $('a.vote');
-  $(vote).each(function () {
+  var destroyForm = $('form.destroy');
+  $(destroyForm).each(function () {
     var _this = this;
+
+    $(this).on('submit', function (e) {
+      e.preventDefault();
+      var method = $(_this).find('input[name="_method"]').val() || $(_this).attr('method');
+      var form = $(_this);
+      var url = $(_this).attr('action');
+      sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
+        title: 'Supprimer votre photo ?',
+        text: 'Veuillez confirmer la suppression',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Oui',
+        cancelButtonText: 'Annuler',
+        allowOutsideClick: false
+      }).then(function (result) {
+        if (result.value) {
+          $.ajax({
+            url: url,
+            type: method,
+            data: $(form).serialize(),
+            dataType: 'json',
+            success: function success(response) {
+              if (response.success) {
+                var redirect = response.redirect || null;
+                handleSuccess(response.success, redirect);
+              }
+            },
+            error: function error(xhr, status, err) {
+              handleErrors(xhr);
+            }
+          });
+        }
+      });
+    });
+  });
+  $(vote).each(function () {
+    var _this2 = this;
 
     $(this).on('click', function (e) {
       e.preventDefault(); //alert('Vote !');
 
       $.ajax({
-        url: $(_this).attr('href'),
+        url: $(_this2).attr('href'),
         type: 'GET',
         dataType: 'json',
         success: function success(response) {
@@ -5562,17 +5600,17 @@ $(document).ready(function () {
     });
   });
   $(withFile).each(function () {
-    var _this2 = this;
+    var _this3 = this;
 
     $(this).on('submit', function (e) {
       e.preventDefault();
-      var form = $(_this2);
-      var method = $(_this2).find('input[name="_method"]').val() || $(_this2).attr('method');
-      var url = $(_this2).attr('action');
-      var data = new FormData(_this2);
-      var button = $(_this2).find('button');
+      var form = $(_this3);
+      var method = $(_this3).find('input[name="_method"]').val() || $(_this3).attr('method');
+      var url = $(_this3).attr('action');
+      var data = new FormData(_this3);
+      var button = $(_this3).find('button');
       $(button).prop('disabled', true);
-      var inputFile = $(_this2).find('input[type="file"]');
+      var inputFile = $(_this3).find('input[type="file"]');
       var file = $(inputFile).get(0).files;
 
       if ($(file).length) {
@@ -5640,17 +5678,17 @@ $(document).ready(function () {
     });
   });
   $(ajaxForm).each(function () {
-    var _this3 = this;
+    var _this4 = this;
 
     $(this).on('submit', function (e) {
       e.preventDefault();
-      var method = $(_this3).find('input[name="_method"]').val() || $(_this3).attr('method'); //alert(method);
+      var method = $(_this4).find('input[name="_method"]').val() || $(_this4).attr('method'); //alert(method);
 
-      var data = $(_this3).serialize(); //alert(data); return false;
+      var data = $(_this4).serialize(); //alert(data); return false;
 
       $.ajax({
         type: method,
-        url: $(_this3).attr('action'),
+        url: $(_this4).attr('action'),
         data: data,
         dataType: 'json',
         success: function success(response) {

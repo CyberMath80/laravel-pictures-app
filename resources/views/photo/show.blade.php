@@ -4,7 +4,7 @@
         <section class="section">
             <div class="section-header d-block">
                 <h1>
-                    {{ $heading }}
+                    {{ ucfirst($heading) }}
                 </h1>
                 <div class="article-category"><div class="bullet"></div> Catégories :
                     @foreach($categories as $category)
@@ -27,8 +27,8 @@
                     <div class="col-12 col-md-12 col-lg-12">
                         <div class="card">
                             <div class="card-header d-block">
-                                <h4 class="mb-4">Un ptit coup de pouce ?</h4>
-                                <p>N'oubliez pas de voter pour cette photo...</p>
+                                <h4 class="mb-4">Pousse ton pouce !</h4>
+                                <p>N'oublie pas de voter pour cette photo...</p>
                                 <div>
                                     <span class="d-inline-block">
                                     <a class="vote" href="{{ route('photo.vote', ['photo' => $photo->slug, 'vote' =>'like', 'token' => Session::token()]) }}">
@@ -51,7 +51,7 @@
                                     <div class="alert alert-danger">{{ session('error') }}</div>
                                 @endif
 
-                                <h4 class="mt-4">Autres résolutions disponibles au téléchargement</h4>
+                                <h4 class="mt-4">Autres résolutions disponibles en téléchargement</h4>
                             </div>
                             <div class="card-body">
                                 <div>

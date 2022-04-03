@@ -7,6 +7,9 @@
             </div>
             <div class="section-body">
                 <h2 class="section-title">{{ $heading }}</h2>
+                @if(session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
                 <div class="row">
 @forelse($photos as $photo)
                     <div class="col-12 col-md-4 col-lg-4">
@@ -30,6 +33,17 @@
                                             <a href="#">{{ $photo->album->user->name }}</a> - {{ $photo->album->user->photos->count() }} {{ Str::plural('photo', $photo->album->user->photos->count()) }}
                                         </div>
                                         <div class="text-job"><a href="#">{{  $photo->album->title  }}</a> {{ $photo->album->photos->count() }} {{ Str::plural('photo', $photo->album->photos->count()) }}</div>
+                                        @if(Auth::check() && Auth::id() == $photo->album->user_id)
+                                            <div class="destroy text-right">
+                                                <form action="{{ route('photo.destroy', [$photo->slug]) }}" method="post" class="destroy">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger" type="submit">
+                                                        <i class="far fa-trash-alt"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

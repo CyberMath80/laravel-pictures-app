@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Nette\Schema\ValidationException;
 use App\Models\{ Photo, Album, User, Source, Tag  };
 use App\Http\Requests\PhotoRequest;
 use App\Jobs\ResizePhoto;
@@ -152,5 +153,31 @@ class PhotoController extends Controller
 
         $redirect = route('photo.show', [$photo->slug]);
         return request()->ajax() ? response()->json(['success' => $success, 'redirect' => $redirect]) : back()->withSuccess($success);
+    }
+
+    public function destroy(Photo $photo) {
+        //dd($photo);
+        $photo->load('sources', 'album');
+        abort_if($photo->album->user_id != auth()->id(), 403);
+        DB::beginTransaction();
+        try {
+            DB::afterCommit(function() use ($photo) {
+               foreach($photo->sources as $source) {
+                   Storage::delete($source->path);
+               }
+               Storage::delete($photo->thumbnail_path);
+            });
+
+            $photo->delete();
+        }
+        catch(ValidationException $e) {
+            DB::rollBack();
+            dd($e->getErrors());
+        }
+        DB::commit();
+
+        $success = 'Photo supprimée !';
+
+        return request()->ajax() ? response()->json(['success' => $success, 'redirect' => url()->previous()]) : back()->withSuccess($success);
     }
 }

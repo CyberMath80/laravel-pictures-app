@@ -11,6 +11,44 @@ $(document).ready(function(){
     let progressbar = $(progress).find('#progressbar');
     let withFile = $('form.withFile');
     let vote = $('a.vote');
+    let destroyForm = $('form.destroy');
+
+    $(destroyForm).each(function(){
+        $(this).on('submit', (e) => {
+            e.preventDefault();
+            let method = $(this).find('input[name="_method"]').val() || $(this).attr('method');
+            let form = $(this);
+            let url = $(this).attr('action');
+
+            Swal.fire({
+                title: 'Supprimer votre photo ?',
+                text: 'Veuillez confirmer la suppression',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Oui',
+                cancelButtonText: 'Annuler',
+                allowOutsideClick: false,
+            }).then((result) => {
+                if(result.value) {
+                    $.ajax({
+                        url: url,
+                        type: method,
+                        data: $(form).serialize(),
+                        dataType: 'json',
+                        success: (response) => {
+                            if(response.success) {
+                                let redirect = response.redirect || null;
+                                handleSuccess(response.success, redirect);
+                            }
+                        },
+                        error: (xhr, status, err) => {
+                            handleErrors(xhr);
+                        }
+                    })
+                }
+            })
+        })
+    })
 
     $(vote).each(function(){
         $(this).on('click', (e) => {
