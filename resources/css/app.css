@@ -42,3 +42,13 @@ div.destroy i {
     color: #fff;
     font-size: 1.25rem;
 }
+
+.dropdown-menu {
+    will-change: transform;
+    transform: translate3d(0px, 27px, 0px);
+}
+
+.dropdown-menu a {
+    display: block;
+    width: 100%;
+}

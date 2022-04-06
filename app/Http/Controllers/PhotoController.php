@@ -123,6 +123,13 @@ class PhotoController extends Controller
             $source->photo->album->user->notify(new PhotoDownloaded($source, $source->photo, auth()->user()));
             Mail::to(auth()->user())->send(new MailPhoto($source, auth()->user()));
         }
+        $download = $source->photo->downloads()->create([
+            'user_id' => auth()->id(),
+            'width' => $source->width,
+            'height' => $source->height,
+            'size' => Storage::size($source->path),
+            'ip_address' => request()->ip(),
+        ]);
 
         return Storage::download($source->path);
     }

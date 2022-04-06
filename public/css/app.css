@@ -675,6 +675,9 @@ select {
 .mt-6 {
   margin-top: 1.5rem;
 }
+.mr-2 {
+  margin-right: 0.5rem;
+}
 .ml-1 {
   margin-left: 0.25rem;
 }
@@ -698,9 +701,6 @@ select {
 }
 .mt-2 {
   margin-top: 0.5rem;
-}
-.mr-2 {
-  margin-right: 0.5rem;
 }
 .ml-4 {
   margin-left: 1rem;
@@ -1221,6 +1221,14 @@ div.destroy.text-right i {
 div.destroy i {
     color: #fff;
     font-size: 1.25rem;
+}
+.dropdown-menu {
+    will-change: transform;
+    transform: translate3d(0px, 27px, 0px);
+}
+.dropdown-menu a {
+    display: block;
+    width: 100%;
 }
 .hover\:border-gray-300:hover {
   --tw-border-opacity: 1;

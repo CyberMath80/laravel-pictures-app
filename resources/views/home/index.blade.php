@@ -5,6 +5,7 @@
             <div class="section-header">
                 <h1>{{ $heading }}</h1>
             </div>
+            @include('includes.sort') {{-- Liens de tri --}}
             <div class="section-body">
                 <h2 class="section-title">{{ $heading }}</h2>
                 @if(session('success'))
