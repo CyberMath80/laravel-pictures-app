@@ -21,7 +21,7 @@ $(document).ready(function(){
             let url = $(this).attr('action');
 
             Swal.fire({
-                title: 'Supprimer votre photo ?',
+                title: 'Supprimer ?',
                 text: 'Veuillez confirmer la suppression',
                 icon: 'warning',
                 showCancelButton: true,

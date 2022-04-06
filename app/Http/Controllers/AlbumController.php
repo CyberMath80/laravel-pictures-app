@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\{ Album, Category, Tag, User };
 use Illuminate\Http\Request;
 use App\Http\Requests\AlbumRequest;
-use DB, Auth;
+use DB, Auth, Storage, Cache;
+use Nette\Schema\ValidationException;
 
 class AlbumController extends Controller
 {
@@ -21,7 +22,6 @@ class AlbumController extends Controller
     public function index() { // liste des albums de l'user connecté
         //dd(auth()->user()->name);
         $albums = auth()->user()->albums()->with('photos', fn($query) => $query->withoutGlobalScope('active')->orderByDesc('created_at'))->orderByDesc('updated_at')->paginate();
-        $user = auth()->user();
         //dd($albums);
 
         $data = [
@@ -29,7 +29,6 @@ class AlbumController extends Controller
             'description' => $description,
             'albums' => $albums,
             'heading' => $description,
-            'user' => $user,
         ];
 
         return view('album.index', $data);
@@ -136,6 +135,26 @@ class AlbumController extends Controller
      */
     public function destroy(Album $album)
     {
-        //
+        abort_if(auth()->id() != $album->user_id, 403);
+
+        DB::beginTransaction();
+        try {
+            DB::afterCommit(function() use($album) {
+                Storage::deleteDirectory('photo/'.$album->id);
+                Cache::flush();
+            });
+            $album->delete();
+        }
+        catch(ValidationException $e) {
+            DB::rollBack();
+            dd($e->getErrors());
+        }
+
+        DB::Commit();
+
+        $success = 'Album Supprimé !';
+        $redirect = route('albums.index');
+
+        return request()->ajax() ? response()->json(['success' => $success, 'redirect' => $redirect]) : redirect($redirect)->withSuccess($success);
     }
 }

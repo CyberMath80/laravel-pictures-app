@@ -5541,7 +5541,7 @@ $(document).ready(function () {
       var form = $(_this);
       var url = $(_this).attr('action');
       sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
-        title: 'Supprimer votre photo ?',
+        title: 'Supprimer ?',
         text: 'Veuillez confirmer la suppression',
         icon: 'warning',
         showCancelButton: true,

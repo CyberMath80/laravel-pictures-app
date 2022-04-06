@@ -36,12 +36,19 @@
                                             <div class="text-job"></div>
                                             @if(Auth::user()->id == $album->user_id)
                                                 <div class="destroy text-right">
-                                                    <a href="{{ route('photo.create', [$album->slug]) }}" class="mr-2">
+                                                    <a href="{{ route('photo.create', [$album->slug]) }}" class="mr-3">
                                                         <i class="fas fa-plus btn btn-info"></i>
                                                     </a>
-                                                    <a href="{{ route('albums.edit', [$album->slug]) }}">
+                                                    <a href="{{ route('albums.edit', [$album->slug]) }}" class="mr-3">
                                                         <i class="fas fa-edit btn btn-warning"></i>
                                                     </a>
+                                                    <form action="{{ route('albums.destroy', [$album->slug]) }}" method="post" class="destroy">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="btn btn-danger" type="submit">
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             @endif
                                         </div>

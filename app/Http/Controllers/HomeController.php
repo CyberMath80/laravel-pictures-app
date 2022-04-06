@@ -21,6 +21,7 @@ class HomeController extends Controller
 
     public function __invoke(Request $request)
     {
+        //Cache::flush();
         $sort = request()->query('sort', null);
         $query = Photo::query()->with('album.user.photos');
 
