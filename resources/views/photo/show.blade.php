@@ -8,12 +8,12 @@
                 </h1>
                 <div class="article-category"><div class="bullet"></div> Catégories :
                     @foreach($categories as $category)
-                        <a href="">{{ ucfirst($category->name) }}</a>
+                        <a href="{{ route('category.photos', [$category->slug]) }}">{{ ucfirst($category->name) }}</a>
                     @endforeach
                 </div>
                 <div class="article-category"><div class="bullet"></div> Tags :
                     @foreach($tags as $tag)
-                        <a href="">{{ ucFirst($tag->name) }}</a>
+                        <a href="{{ route('tag.photos', [$tag->slug]) }}">{{ ucFirst($tag->name) }}</a>
                     @endforeach
                 </div>
                 <div class="article-category"><div class="bullet"></div> Résolution max {{ $photo->sources->max('width') }} X {{ $photo->sources->max('height') }}</div>
@@ -21,7 +21,7 @@
 
             <div class="section-body">
                 <h2 class="section-title">
-                    {{ ucfirst($heading) }} - Photo postée par <a href="">{{ ucfirst($photo->album->user->name) }}</a> le {{ $photo->album->updated_at->isoFormat('LL') }}
+                    {{ ucfirst($heading) }} - Photo postée par <a href="{{ route('user.photos', [$photo->album->user->slug]) }}">{{ ucfirst($photo->album->user->name) }}</a> le {{ $photo->album->updated_at->isoFormat('LL') }}
                 </h2>
                 <div class="row">
                     <div class="col-12 col-md-12 col-lg-12">

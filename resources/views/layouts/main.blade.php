@@ -32,76 +32,15 @@
                             <i class="fas fa-ellipsis-v"></i>
                         </a>
                         <ul class="navbar-nav">
-                            <li class="nav-item active"><a href="{{ route('home') }}" class="nav-link">Application</a></li>
-                            <li class="nav-item"><a href="{{ route('home') }}" class="nav-link">Report Something</a></li>
-                            <li class="nav-item"><a href="{{ route('home') }}" class="nav-link">Server Status</a></li>
+                            @foreach(App\Models\Category::popular() as $category)
+                            <li class="nav-item active"><a href="{{ route('category.photos', [$category->slug]) }}" class="nav-link">{{ ucfirst($category->name) }}</a></li>
+                            @endforeach
                         </ul>
                     </div>
-                    <form class="form-inline ml-auto">
-                        <ul class="navbar-nav">
-                            <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>
-                        </ul>
+                    <form class="form-inline ml-auto" action="{{ route('search') }}" method="get">
                         <div class="search-element">
-                            <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="250">
+                            <input value="{{ request()->query('search', '') }}" class="form-control" name="search" type="search" placeholder="Rechercher" aria-label="Search" data-width="250">
                             <button class="btn" type="submit"><i class="fas fa-search"></i></button>
-                            <div class="search-backdrop"></div>
-                            <div class="search-result">
-                                <div class="search-header">
-                                    Histories
-                                </div>
-                                <div class="search-item">
-                                    <a href="#">How to hack NASA using CSS</a>
-                                    <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-                                </div>
-                                <div class="search-item">
-                                    <a href="#">Kodinger.com</a>
-                                    <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-                                </div>
-                                <div class="search-item">
-                                    <a href="#">#Stisla</a>
-                                    <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-                                </div>
-                                <div class="search-header">
-                                    Result
-                                </div>
-                                <div class="search-item">
-                                    <a href="#">
-                                        {{--<img class="mr-3 rounded" width="30" src="../assets/img/products/product-3-50.png" alt="product">--}}
-                                        oPhone S9 Limited Edition
-                                    </a>
-                                </div>
-                                <div class="search-item">
-                                    <a href="#">
-                                        {{--<img class="mr-3 rounded" width="30" src="../assets/img/products/product-2-50.png" alt="product">--}}
-                                        Drone X2 New Gen-7
-                                    </a>
-                                </div>
-                                <div class="search-item">
-                                    <a href="#">
-                                        {{--<img class="mr-3 rounded" width="30" src="../assets/img/products/product-1-50.png" alt="product">--}}
-                                        Headphone Blitz
-                                    </a>
-                                </div>
-                                <div class="search-header">
-                                    Projects
-                                </div>
-                                <div class="search-item">
-                                    <a href="#">
-                                        <div class="search-icon bg-danger text-white mr-3">
-                                            <i class="fas fa-code"></i>
-                                        </div>
-                                        Stisla Admin Template
-                                    </a>
-                                </div>
-                                <div class="search-item">
-                                    <a href="#">
-                                        <div class="search-icon bg-primary text-white mr-3">
-                                            <i class="fas fa-laptop"></i>
-                                        </div>
-                                        Create a new Homepage Design
-                                    </a>
-                                </div>
-                            </div>
                         </div>
                     </form>
 @auth
@@ -242,35 +181,12 @@
                 <nav class="navbar navbar-secondary navbar-expand-lg">
                     <div class="container">
                         <ul class="navbar-nav">
-                            <li class="nav-item dropdown">
-                                <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a href="index-0.html" class="nav-link">General Dashboard</a></li>
-                                    <li class="nav-item"><a href="index.html" class="nav-link">Ecommerce Dashboard</a></li>
-                                </ul>
+                            @forelse(App\Models\Tag::popular() as $tag)
+                            <li class="nav-item">
+                                <a href="{{ route('tag.photos', [$tag->slug]) }}" class="nav-link"><span>{{ ucfirst($tag->name) }}</span></a>
                             </li>
-                            <li class="nav-item active">
-                                <a href="#" class="nav-link"><i class="far fa-heart"></i><span>Top Navigation</span></a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-clone"></i><span>Multiple Dropdown</span></a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a href="#" class="nav-link">Not Dropdown Link</a></li>
-                                    <li class="nav-item dropdown"><a href="#" class="nav-link has-dropdown">Hover Me</a>
-                                        <ul class="dropdown-menu">
-                                            <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
-                                            <li class="nav-item dropdown"><a href="#" class="nav-link has-dropdown">Link 2</a>
-                                                <ul class="dropdown-menu">
-                                                    <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
-                                                    <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
-                                                    <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="nav-item"><a href="#" class="nav-link">Link 3</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
+                            @empty
+                            @endforelse
                         </ul>
                     </div>
                 </nav>
@@ -278,7 +194,7 @@
                 @yield('content')
                 <footer class="main-footer">
                     <div class="footer-left">
-                        Copyright &copy; 2018 <div class="bullet"></div> Design By <a href="https://nauval.in/">Muhamad Nauval Azhar</a>
+                        Copyright &copy; @php echo date('Y'); @endphp <div class="bullet"></div> By <a rel="nofollow noopener noreferrer" href="https://cybermath.dev">CyberMath</a>
                     </div>
                     <div class="footer-right">
                         2.3.0

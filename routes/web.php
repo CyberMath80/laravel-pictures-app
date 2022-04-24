@@ -4,7 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     AlbumController,
     PhotoController,
-    HomeController
+    HomeController,
+    UserController,
+    TagController,
+    CategoryController,
+    SearchController
 };
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +26,12 @@ use App\Http\Controllers\{
 */
 
 Route::get('/', HomeController::class)->name('home');
-
-Route::resource('albums', AlbumController::class);
+Route::get('user/{user}', [UserController::class, 'photos'])->name('user.photos');
+Route::get('tag/{tag}', [TagController::class, 'photos'])->name('tag.photos');
+Route::get('category/{category}', [CategoryController::class, 'photos'])->name('category.photos');
 Route::get('photo/{photo}', [PhotoController::class, 'show'])->name('photo.show');
+Route::get('search', [SearchController::class, 'search'])->name('search');
+Route::resource('albums', AlbumController::class);
 Route::post('download', [PhotoController::class, 'download'])->name('photo.download')->middleware('auth', 'verified');
 Route::get('read-all', [PhotoController::class, 'readAll'])->name('notifications.read')->middleware('auth', 'verified');
 Route::middleware(['auth', 'verified'])->group(function() {

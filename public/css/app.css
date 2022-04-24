@@ -1196,6 +1196,9 @@ select {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+.section-body h2.section-title {
+    width: 50%;
+}
 .article-image a img {
     margin: 0 auto;
 }

@@ -14,6 +14,10 @@ class Tag extends Model
 
     protected $guarded = [];
 
+    public function scopePopular($query) {
+        return $query->withCount('photos')->orderByDesc('photos_count')->take(5)->get();
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';

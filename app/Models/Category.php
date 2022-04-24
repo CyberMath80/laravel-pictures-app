@@ -13,6 +13,10 @@ class Category extends Model
     use HasFactory, HasSlug;
     protected $guarded = [];
 
+    public function scopePopular($query) {
+        return $query->withCount('albums')->orderByDesc('albums_count')->take(3)->get();
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';

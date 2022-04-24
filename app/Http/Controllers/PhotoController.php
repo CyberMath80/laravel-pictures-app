@@ -86,8 +86,7 @@ class PhotoController extends Controller
             'votes as count_dislikes' => function($query) { return $query->where('dislike', true); }
         ]);
         //dd($photo);
-        $tags = collect($photo->tags)->merge(collect($photo->album->tags))->unique();
-
+        $tags = collect($photo->tags)->merge(collect($photo->album->tags))->unique('name');
         $categories = $photo->album->categories;
 
         //dd($tags, $categories);

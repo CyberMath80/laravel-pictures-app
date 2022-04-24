@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{ Album, Category, Tag, User };
+use App\Models\{ Album, Category, Tag, Photo, User };
 use Illuminate\Http\Request;
 use App\Http\Requests\AlbumRequest;
-use DB, Auth, Storage, Cache;
+use App\Services\PhotoService;
+use DB, Auth, Storage, Cache, Str;
 use Nette\Schema\ValidationException;
 
 class AlbumController extends Controller
@@ -101,7 +102,21 @@ class AlbumController extends Controller
      */
     public function show(Album $album)
     {
-        //
+        $album->load('photos');
+        $sort = request()->query('sort', null);
+        $query = Photo::query()->whereAlbumId($album->id)->with('album.user.photos');
+
+        $currentPage = http_build_query(request()->query());
+        $photos = Cache::rememberForever('photos_album_'.$album->id.'_'.$currentPage, fn() => (new PhotoService())->getAll($query, $sort));
+
+        $data = [
+            'title' => $description = 'Les photos de l\'album '.$album->title.' - '.config('app.name'),
+            'description' => $description,
+            'heading' => $photos->count().' '.Str::plural('photo', $photos->count()).' dans l\'album '.$album->title,
+            'photos' => $photos,
+        ];
+
+        return view('album.show', $data);
     }
 
     /**
@@ -112,7 +127,22 @@ class AlbumController extends Controller
      */
     public function edit(Album $album)
     {
-        //
+        abort_if($album->user_id != auth()->id(), 403);
+        $album->load('categories:name,slug', 'tags:name,slug');
+        $categories = $album->categories->implode('name', ', ');
+        $tags = $album->tags->implode('name', ', ');
+        //dd($categories, $tags);
+
+        $data = [
+            'title' => $description = 'Éditer l\'album '.$album->title.' - '.config('app.name'),
+            'description' => $description,
+            'album' => $album,
+            'heading' => 'Mettre à jour l\'album '.$album->title,
+            'categories' => $categories,
+            'tags' => $tags,
+        ];
+
+        return view('album.edit', $data);
     }
 
     /**
@@ -122,9 +152,48 @@ class AlbumController extends Controller
      * @param  \App\Models\Album  $album
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Album $album)
+    public function update(AlbumRequest $request, Album $album)
     {
-        //
+        abort_if($album->user_id != auth()->id(), 403);
+        DB::beginTransaction();
+        try {
+            $album = Auth::user()->albums()->updateOrCreate(
+                ['id' => $album->id],
+                $request->validated()
+            );
+
+            $categories = explode(',', $request->categories);
+            $categories = collect($categories)->filter(function($value, $key){
+                return $value != '' && $value != ' ';
+            })->all();
+            $categoryIds = [];
+            foreach($categories as $cat) {
+                $category = Category::firstOrCreate(['name' => ucfirst(trim($cat))]);
+                array_push($categoryIds, $category->id);
+            }
+            $album->categories()->sync($categoryIds);
+
+            $tags = explode(',', $request->tags);
+            $tags = collect($tags)->filter(function($value, $key){
+                return $value != '' && $value != ' ';
+            })->all();
+            $tagIds = [];
+            foreach($tags as $t) {
+                $tag = Tag::firstOrCreate(['name' => ucfirst(trim($t))]);
+                array_push($tagIds, $tag->id);
+            }
+            $album->tags()->sync($tagIds);
+        }
+        catch(ValidationException $e) {
+            DB::rollBack();
+            dd($e->getErrors());
+        }
+        DB::commit();
+
+        $success = 'Album mis à jour.';
+        $redirect = route('albums.edit', [$album->slug]);
+
+        return $request->ajax() ? response()->json(['success' => $success, 'redirect' => $redirect]) : redirect($redirect)->withSuccess($success);
     }
 
     /**
