@@ -73,8 +73,8 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 {{--<div class="dropdown-title">Logged in 5 min ago</div>--}}
-                                <a href="{{ route('albums.create') }}" class="dropdown-item has-icon"><i class="far fa-user"></i> Créer album</a>
-                                <a href="{{ route('albums.index') }}" class="dropdown-item has-icon"><i class="fas fa-bolt"></i> Mes albums</a>
+                                <a href="{{ route('albums.create') }}" class="dropdown-item has-icon"><i class="fas fa-plus-circle"></i> Créer album</a>
+                                <a href="{{ route('albums.index') }}" class="dropdown-item has-icon"><i class="fas fa-images"></i> Mes albums</a>
                                 <a href="features-settings.html" class="dropdown-item has-icon"><i class="fas fa-cog"></i> Settings</a>
                                 <div class="dropdown-divider"></div>
                                 <form method="POST" action="{{ route('logout') }}">
