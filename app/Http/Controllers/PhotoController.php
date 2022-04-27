@@ -22,7 +22,6 @@ class PhotoController extends Controller
             'description' => $description,
             'album' => $album,
             'heading' => $album->title,
-            'user' => auth()->user(),
         ];
 
         return view('photo.create', $data);
@@ -36,7 +35,7 @@ class PhotoController extends Controller
             $photo = $album->photos()->create($request->validated());
 
             $tags = explode(',',$request->tags);
-            $tags = collect($tags)->filter(function($value, $key){
+            $tags = collect($tags)->filter(function($value, $key) {
                 return $value != '' && $value != ' ';
             })->all();
 

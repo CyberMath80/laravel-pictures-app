@@ -4,6 +4,9 @@
 html {
     overflow-x: hidden !important;
 }
+div.main-content {
+    min-height: 692px;
+}
 .article-title h2 {
     display: block;
     width: 100%;
@@ -11,52 +14,66 @@ html {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-
 .section-body h2.section-title {
     width: 50%;
 }
 .article-image a img {
     margin: 0 auto;
 }
-
 .div-title {
     display: flex;
     align-items: center;
 }
-
 div.error {
     color: #F55;
 }
-
+div.destroy.text-right.photo {
+    justify-content: end;
+    margin-top: 10px;
+}
+div.destroy.text-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
 div.destroy.text-right a,
 div.destroy.text-right form.destroy {
-    display: inline-block;
-    width: 20%;
+    display: block;
     text-align: center;
+    text-decoration: none;
+    width: 60px;
 }
-
-div.destroy.text-right i,
 div.destroy.text-right form.destroy button {
-    font-size: 1.25rem;
-    width: 100%;
+    width: 60px;
+    display: block;
+    padding-top: 8px !important;
+}
+div.destroy.text-right a,
+div.destroy.text-right form.destroy button {
     height: 40px !important;
 }
-
+div.destroy.text-right a i,
+div.destroy.text-right form.destroy button i {
+    font-size: 1.25rem;
+    width: 100%;
+}
 div.destroy i, div.destroy button i {
     color: #fff;
     font-size: 1.25rem;
+    height: 40px !important;
 }
-
 .vote i {
     font-size: 1.25rem;
 }
-
 .dropdown-menu {
     will-change: transform;
     transform: translate3d(0px, 27px, 0px);
 }
-
 .dropdown-menu a {
     display: block;
     width: 100%;
+}
+.dropdown-menu.sort a.dropdown-item {
+    display: block;
+    width: 150px;
 }

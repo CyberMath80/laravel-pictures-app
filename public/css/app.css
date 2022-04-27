@@ -714,9 +714,6 @@ select {
 .-mt-px {
   margin-top: -1px;
 }
-.mr-3 {
-  margin-right: 0.75rem;
-}
 .block {
   display: block;
 }
@@ -1189,6 +1186,12 @@ select {
 .ease-in {
   transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
+html {
+    overflow-x: hidden !important;
+}
+div.main-content {
+    min-height: 692px;
+}
 .article-title h2 {
     display: block;
     width: 100%;
@@ -1209,21 +1212,40 @@ select {
 div.error {
     color: #F55;
 }
+div.destroy.text-right.photo {
+    justify-content: end;
+    margin-top: 10px;
+}
+div.destroy.text-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
 div.destroy.text-right a,
 div.destroy.text-right form.destroy {
-    display: inline-block;
-    width: 20%;
+    display: block;
     text-align: center;
+    text-decoration: none;
+    width: 60px;
 }
-div.destroy.text-right i,
 div.destroy.text-right form.destroy button {
+    width: 60px;
+    display: block;
+    padding-top: 8px !important;
+}
+div.destroy.text-right a,
+div.destroy.text-right form.destroy button {
+    height: 40px !important;
+}
+div.destroy.text-right a i,
+div.destroy.text-right form.destroy button i {
     font-size: 1.25rem;
     width: 100%;
-    height: 40px !important;
 }
 div.destroy i, div.destroy button i {
     color: #fff;
     font-size: 1.25rem;
+    height: 40px !important;
 }
 .vote i {
     font-size: 1.25rem;
@@ -1235,6 +1257,10 @@ div.destroy i, div.destroy button i {
 .dropdown-menu a {
     display: block;
     width: 100%;
+}
+.dropdown-menu.sort a.dropdown-item {
+    display: block;
+    width: 150px;
 }
 .hover\:border-gray-300:hover {
   --tw-border-opacity: 1;

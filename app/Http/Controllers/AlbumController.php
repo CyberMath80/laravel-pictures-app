@@ -69,7 +69,7 @@ class AlbumController extends Controller
                 $album->categories()->attach($category->id);
             }
 
-            $tags = explode(',',$request->tags);
+            $tags = explode(',', $request->tags);
             $tags = collect($tags)->filter(function($value, $key){
                 return $value != '' && $value != ' ';
             })->all();

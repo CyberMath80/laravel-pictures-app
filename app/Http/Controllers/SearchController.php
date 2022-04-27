@@ -29,9 +29,9 @@ class SearchController extends Controller
         $photos = Cache::rememberForever('photos_search_'.$search.'_'.$currentPage, fn() =>(new PhotoService())->getAll($query, $sort));
 
         $data = [
-            'title' => $description = 'Résultat de recherche pour '.$search.' - '.config('app.name'),
+            'title' => $description = 'Résultat de recherche pour le terme '.$search.' - '.config('app.name'),
             'description' => $description,
-            'heading' => $photos->count().' '.Str::plural('photo', $photos->count()).' avec le terme '.$search,
+            'heading' => $photos->count().' '.Str::plural('Photo', $photos->count()).' avec le terme '.$search,
             'photos' => $photos,
             'search' => $search,
         ];

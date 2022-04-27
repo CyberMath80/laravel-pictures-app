@@ -222,7 +222,7 @@ function handleErrors(xhr) {
             });
             break;
         case 422: //erreur de validation
-            //console.log(xhr.responseJSON.errors);
+            console.log(xhr.responseJSON.errors);
             let errorString = '';
             $.each(xhr.responseJSON.errors, function(key, value) {
                 errorString += '<p>'+value+'</p>';

@@ -1,4 +1,4 @@
 @extends('layouts.main')
 @section('content')
-@include('includes.listing')
+                @include('includes.listing')
 @stop

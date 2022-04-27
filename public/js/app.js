@@ -5743,7 +5743,7 @@ function handleErrors(xhr) {
 
     case 422:
       //erreur de validation
-      //console.log(xhr.responseJSON.errors);
+      console.log(xhr.responseJSON.errors);
       var errorString = '';
       $.each(xhr.responseJSON.errors, function (key, value) {
         errorString += '<p>' + value + '</p>';
